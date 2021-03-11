@@ -1,6 +1,6 @@
 package com.sparta.malik.JSFLoginProject.datastore;
 
-import com.sparta.malik.JSFLoginProject.entities.Users;
+import com.sparta.malik.JSFLoginProject.entities.UserEntity;
 
 import javax.inject.Named;
 import javax.persistence.*;
@@ -10,19 +10,19 @@ import java.util.Arrays;
 import java.util.List;
 
 @Named
-public class Database {
+public class DatabaseJPA {
 
     private static String errorMsg;
     private static final String[] validUserTypes = {"admin","user"};
 
-    public static void addUser(String username, String password, String userType) {
+    public void addUser(String username, String password, String userType) {
         //check if username already exists!
         if (findUser(username) == null) {
             //get ids of all users, to find the next available id
             EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            TypedQuery<Integer> query2 = entityManager.createQuery("SELECT MAX(id) FROM Users", Integer.class);
-            List<Integer> highestID = query2.getResultList();
+            Query nativeQuery = entityManager.createNativeQuery("SELECT MAX(id) FROM Users", UserEntity.class);
+            int highestID = (int) nativeQuery.getSingleResult();
             // use that id to add into the database
             // MD5 hash password
             if (MD5(password) == null) {
@@ -34,8 +34,8 @@ public class Database {
                 } else {
                     EntityTransaction transaction = entityManager.getTransaction();
                     transaction.begin();
-                    Users user = new Users();
-                    user.setId(highestID.get(0) + 1);
+                    UserEntity user = new UserEntity();
+                    user.setId(highestID + 1);
                     user.setUsername(username);
                     user.setPassword(MD5(password));
                     entityManager.persist(user);
@@ -49,31 +49,47 @@ public class Database {
         }
     }
 
-    public static List<Users> getAllUsers() {
+    public List<UserEntity> getAllUsers() {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        TypedQuery<Users> query = entityManager.createQuery("SELECT id,username,password,userType FROM Users", Users.class);
-        return query.getResultList();
+        List<UserEntity> users = entityManager.createQuery("select u from UserEntity u", UserEntity.class).getResultList();
+        return users;
     }
 
-    public static Users findUser(String username) {
+    public UserEntity findUser(String username) {
+
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        TypedQuery<Users> query = entityManager.createQuery("SELECT u FROM Users AS u WHERE u.username = " + username + "", Users.class);
-        List<Users> results = query.getResultList();
-        if (results.isEmpty()) {
+        Query nativeQuery = entityManager.createNativeQuery("SELECT * FROM Users WHERE username=:userId", UserEntity.class);
+        nativeQuery.setParameter("userId", username);
+
+        UserEntity tempUser;
+        try {
+            tempUser = (UserEntity) nativeQuery.getSingleResult();
+        } catch (NoResultException e) {
+            tempUser = null;
+        } finally {
             entityManager.close();
             entityManagerFactory.close();
-            return null;
-        } else {
-            entityManager.close();
-            entityManagerFactory.close();
-            return results.get(0);
         }
+        return tempUser;
+
+//         if ((Users) nativeQuery.getSingleResult() == null) {
+////        TypedQuery<Users> query = entityManager.createQuery("SELECT id,username,password,userType FROM Users WHERE username = '" + username + "'", Users.class);
+////        List<Users> results = query.getResultList();
+////        if (results.isEmpty()) {
+//            entityManager.close();
+//            entityManagerFactory.close();
+//            return null;
+//        } else {
+//            entityManager.close();
+//            entityManagerFactory.close();
+////            return results.get(0);
+//            return (Users) nativeQuery.getSingleResult();
+//        }
     }
 
-    private static String MD5(String input) {
+    public static String MD5(String input) {
         try {
             byte[] bytesOfMessage = input.getBytes(StandardCharsets.UTF_8);
             MessageDigest md = MessageDigest.getInstance("MD5");

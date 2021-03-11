@@ -4,7 +4,9 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Users {
+@Table(name = "users", schema = "jsfloginapplication")
+public class UserEntity {
+
     private int id;
     private String username;
     private String password;
@@ -55,11 +57,8 @@ public class Users {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Users that = (Users) o;
-        return Objects.equals(id, that.id)
-                && Objects.equals(username, that.username)
-                && Objects.equals(password, that.password)
-                && Objects.equals(userType, that.userType);
+        UserEntity that = (UserEntity) o;
+        return Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(userType, that.userType);
     }
 
     @Override

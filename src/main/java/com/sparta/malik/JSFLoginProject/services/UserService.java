@@ -1,29 +1,31 @@
 package com.sparta.malik.JSFLoginProject.services;
 
-import com.sparta.malik.JSFLoginProject.datastore.Database;
-import com.sparta.malik.JSFLoginProject.entities.Users;
+import com.sparta.malik.JSFLoginProject.datastore.DatabaseJPA;
+import com.sparta.malik.JSFLoginProject.entities.UserEntity;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import static com.sparta.malik.JSFLoginProject.datastore.DatabaseLocal.MD5;
 
 @Named
 @RequestScoped
 public class UserService {
 
     @Inject
-    Users user;
+    UserEntity user;
 
     @Inject
-    private Database database;
+    private DatabaseJPA database;
 
     String errorMsg;
 
-    public Users getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(Users user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 
@@ -36,10 +38,18 @@ public class UserService {
     }
 
     public String welcome() {
-        Users tempUser = database.findUser(user.getUsername());
+        UserEntity tempUser = database.findUser(user.getUsername());
+        user.setPassword(MD5(tempUser.getPassword()));
         if (tempUser != null) {
             if (user.getPassword().equals(tempUser.getPassword())) {
-                return "welcome";
+                switch (tempUser.getUserType()) {
+                    case "admin":
+                        return "admin";
+                    case "user":
+                        return "welcome";
+                    default:
+                        return "error";
+                }
             } else {
                 errorMsg = "The password you entered isn't correct!";
                 return "error";
