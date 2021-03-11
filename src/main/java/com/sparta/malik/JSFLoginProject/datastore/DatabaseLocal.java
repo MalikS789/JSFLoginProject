@@ -2,9 +2,9 @@ package com.sparta.malik.JSFLoginProject.datastore;
 
 import com.sparta.malik.JSFLoginProject.entities.UserEntity;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.util.*;
+
+import static com.sparta.malik.JSFLoginProject.datastore.DatabaseJPA.MD5;
 
 public class DatabaseLocal {
 
@@ -51,17 +51,6 @@ public class DatabaseLocal {
             }
         } else {
             errorMsg = "User already exists";
-        }
-    }
-
-    public static String MD5(String input) {
-        try {
-            byte[] bytesOfMessage = input.getBytes(StandardCharsets.UTF_8);
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] thedigest = md.digest(bytesOfMessage);
-            return new String(thedigest);
-        } catch (Exception e) {
-            return null;
         }
     }
 

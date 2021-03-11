@@ -4,8 +4,9 @@ import com.sparta.malik.JSFLoginProject.entities.UserEntity;
 
 import javax.inject.Named;
 import javax.persistence.*;
-import java.nio.charset.StandardCharsets;
+import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -91,12 +92,16 @@ public class DatabaseJPA {
 
     public static String MD5(String input) {
         try {
-            byte[] bytesOfMessage = input.getBytes(StandardCharsets.UTF_8);
             MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] thedigest = md.digest(bytesOfMessage);
-            return new String(thedigest);
-        } catch (Exception e) {
-            return null;
+            byte[] messageDigest = md.digest(input.getBytes());
+            BigInteger no = new BigInteger(1, messageDigest);
+            String hashtext = no.toString(16);
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+            return hashtext;
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
     }
 

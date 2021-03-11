@@ -7,7 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import static com.sparta.malik.JSFLoginProject.datastore.DatabaseLocal.MD5;
+import static com.sparta.malik.JSFLoginProject.datastore.DatabaseJPA.MD5;
 
 @Named
 @RequestScoped
@@ -38,11 +38,10 @@ public class UserService {
     }
 
     public String welcome() {
-        UserEntity tempUser = database.findUser(user.getUsername());
-        user.setPassword(MD5(tempUser.getPassword()));
-        if (tempUser != null) {
-            if (user.getPassword().equals(tempUser.getPassword())) {
-                switch (tempUser.getUserType()) {
+        UserEntity userFromDatabase = database.findUser(user.getUsername());
+        if (userFromDatabase != null) {
+            if (MD5(user.getPassword()).equals(userFromDatabase.getPassword())) {
+                switch (userFromDatabase.getUserType()) {
                     case "admin":
                         return "admin";
                     case "user":
@@ -51,7 +50,7 @@ public class UserService {
                         return "error";
                 }
             } else {
-                errorMsg = "The password you entered isn't correct!";
+                errorMsg = "The password you entered isn't correct! (" + MD5(user.getPassword()) + " , " + userFromDatabase.getPassword() + " ) ";
                 return "error";
             }
         } else {
