@@ -9,10 +9,10 @@ A JSP login application in Java EE.
 
 * JSFs are used as the template engine.
 * MySQL is the database type.
-* The application will allow 2 different types of users to log in.
+* The application will allow 2 different types of user to log in.
   * a normal user.
   * an admin.
-* A welcome screen will be presented to users.
-* An admin has the ability to add new users to the database directly from the UI.
+* A welcome screen will be presented to user.
+* An admin has the ability to add new user to the database directly from the UI.
 * The application has security features to make sure a user cannot see the options an admin can. 
 * Bootstrap and Facelets are used to beautify the UI.

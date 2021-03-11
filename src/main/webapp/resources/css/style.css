@@ -1,0 +1,12 @@
+body {
+    background-color: gray;
+    font-family: Arial, Geneve, Helvetica, sans-serif;
+}
+
+.header {
+    color: cornflowerblue;
+}
+
+.footer {
+    color: blanchedalmond;
+}

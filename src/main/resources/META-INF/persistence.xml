@@ -5,5 +5,12 @@
              version="2.2">
     <persistence-unit name="default">
 
+        <class>com.sparta.malik.JSFLoginProject.entities.Users</class>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/jdbcexample"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="hibernate.connection.user" value="root"/>
+            <property name="hibernate.connection.password" value="password"/>
+        </properties>
     </persistence-unit>
 </persistence>
