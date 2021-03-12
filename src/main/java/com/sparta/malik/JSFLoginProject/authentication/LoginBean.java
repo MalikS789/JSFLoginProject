@@ -12,17 +12,18 @@ import javax.security.enterprise.AuthenticationStatus;
 import javax.security.enterprise.SecurityContext;
 import javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static com.sparta.malik.JSFLoginProject.datastore.UserRepository.MD5;
 
 @Named
 @RequestScoped
 public class LoginBean {
 
     @Inject
-    UserEntity user;
+    UserEntity userEntity;
 
     @Inject
     SecurityContext securityContext;
@@ -33,40 +34,35 @@ public class LoginBean {
     @Inject
     FacesContext facesContext;
 
-    public UserEntity getUser() { return user;}
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
 
-    public void setUser(UserEntity user) {this.user = user;}
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
 
-    public void submit() throws IOException {
-        switch (continueAutentication()) {
+    public void login() throws IOException {
+        switch (continueAuthentication()) {
             case SEND_CONTINUE:
                 facesContext.responseComplete();
                 break;
             case SEND_FAILURE:
-                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        "Login Unsuccessful", null));
+                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid credentials", null));
                 break;
             case SUCCESS:
-                externalContext.redirect(externalContext.getRequestContextPath() + "welcome");
+                externalContext.redirect(externalContext.getRequestContextPath() + "/view/welcome.xhtml");
+                break;
         }
     }
 
-    private AuthenticationStatus continueAutentication() {
+    private AuthenticationStatus continueAuthentication() {
         return securityContext.authenticate(
                 (HttpServletRequest) externalContext.getRequest(),
                 (HttpServletResponse) externalContext.getResponse(),
-                AuthenticationParameters.withParams().credential(new UsernamePasswordCredential(
-                        user.getUsername(), user.getPassword()))
+                AuthenticationParameters.withParams().credential(
+                        new UsernamePasswordCredential(userEntity.getUsername(), MD5(userEntity.getPassword()))
+                )
         );
     }
-
-    public String logout() throws ServletException {
-        ExternalContext externalContext = facesContext.getExternalContext();
-        ((HttpServletRequest)externalContext.getRequest()).logout();
-        return "/login.xhtml?faces=redirect=true";
-    }
-
-
-
-
 }

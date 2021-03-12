@@ -5,6 +5,13 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users", schema = "jsfloginapplication")
+@NamedQueries({
+        @NamedQuery(name = "user.getAll", query = "SELECT users FROM UserEntity users"),
+        @NamedQuery(name = "user.getById", query = "SELECT users FROM UserEntity users WHERE users.id = :id"),
+        @NamedQuery(name = "user.getByUsername", query = "SELECT users FROM UserEntity users WHERE users.username = :username"),
+        @NamedQuery(name = "user.updatePermission", query = "UPDATE UserEntity users SET users.userType = :role"),
+        @NamedQuery(name = "user.getHighestIdUser", query = "SELECT users FROM UserEntity users ORDER BY users.id DESC")
+})
 public class UserEntity {
 
     private int id;
@@ -13,7 +20,7 @@ public class UserEntity {
     private String userType;
 
     @Id
-    @GeneratedValue
+//    @GeneratedValue
     @Column(name = "id")
     public int getId() {
         return id;
@@ -64,5 +71,15 @@ public class UserEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, username, password, userType);
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", userType='" + userType + '\'' +
+                '}';
     }
 }

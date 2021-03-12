@@ -3,47 +3,46 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-    
     <welcome-file-list>
-<!--        <welcome-file>view/index.xhtml</welcome-file>-->
-        <welcome-file>index.xhtml</welcome-file>
+        <welcome-file>login.xhtml</welcome-file>
     </welcome-file-list>
 
-<!--    <security-constraint>-->
-<!--        <web-resource-collection>-->
-<!--            <web-resource-name>Resources Folder</web-resource-name>-->
-<!--            <url-pattern>/resources/*</url-pattern>-->
-<!--        </web-resource-collection>-->
-<!--    </security-constraint>-->
 
-<!--    <security-constraint>-->
-<!--        <web-resource-collection>-->
-<!--            <web-resource-name>Welcome Page</web-resource-name>-->
-<!--&lt;!&ndash;            <url-pattern>/view/welcome.xhtml</url-pattern>&ndash;&gt;-->
-<!--       <url-pattern>welcome.xhtml</url-pattern>-->
-<!--        </web-resource-collection>-->
-<!--        <auth-constraint>-->
-<!--            <role-name>ADMIN</role-name>-->
-<!--            <role-name>USER</role-name>-->
-<!--        </auth-constraint>-->
-<!--    </security-constraint>-->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Resources Folder</web-resource-name>
+            <url-pattern>/resources/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint/>
+    </security-constraint>
 
-<!--    <security-constraint>-->
-<!--        <web-resource-collection>-->
-<!--            <web-resource-name>View Folder</web-resource-name>-->
-<!--            <url-pattern>/view/*</url-pattern>-->
-<!--        </web-resource-collection>-->
-<!--        <auth-constraint>-->
-<!--            <role-name>ADMIN</role-name>-->
-<!--        </auth-constraint>-->
-<!--    </security-constraint>-->
-<!--    -->
-<!--    <security-role>-->
-<!--        <role-name>USER</role-name>-->
-<!--    </security-role>-->
-<!--    -->
-<!--    <security-role>-->
-<!--        <role-name>ADMIN</role-name>-->
-<!--    </security-role>-->
-    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Welcome Page</web-resource-name>
+            <url-pattern>/view/welcome.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ADMIN</role-name>
+            <role-name>USER</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>View Folder</web-resource-name>
+            <url-pattern>/view/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ADMIN</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-role>
+        <role-name>ADMIN</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>USER</role-name>
+    </security-role>
+
 </web-app>
