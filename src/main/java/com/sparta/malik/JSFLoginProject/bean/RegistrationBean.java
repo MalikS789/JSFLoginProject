@@ -1,7 +1,8 @@
-package com.sparta.malik.JSFLoginProject.authentication;
+package com.sparta.malik.JSFLoginProject.bean;
 
 import com.sparta.malik.JSFLoginProject.datastore.UserRepository;
 import com.sparta.malik.JSFLoginProject.entities.UserEntity;
+import com.sparta.malik.JSFLoginProject.util.MD5;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -9,8 +10,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
-
-import static com.sparta.malik.JSFLoginProject.datastore.UserRepository.MD5;
 
 @Named
 @RequestScoped
@@ -45,7 +44,7 @@ public class RegistrationBean {
             } catch (NoResultException | ArrayIndexOutOfBoundsException | NullPointerException e) {
                 newUserEntity.setId(newID);
                 newUserEntity.setUsername(userEntity.getUsername());
-                newUserEntity.setPassword(MD5(userEntity.getPassword()));
+                newUserEntity.setPassword(MD5.convert(userEntity.getPassword()));
                 newUserEntity.setUserType(userEntity.getUserType());
                 userRepository.addUser(newUserEntity);
                 return "registrationSuccess";

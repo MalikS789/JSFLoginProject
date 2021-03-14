@@ -1,6 +1,7 @@
-package com.sparta.malik.JSFLoginProject.authentication;
+package com.sparta.malik.JSFLoginProject.bean;
 
 import com.sparta.malik.JSFLoginProject.entities.UserEntity;
+import com.sparta.malik.JSFLoginProject.util.MD5;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -15,8 +16,6 @@ import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-import static com.sparta.malik.JSFLoginProject.datastore.UserRepository.MD5;
 
 @Named
 @RequestScoped
@@ -61,7 +60,7 @@ public class LoginBean {
                 (HttpServletRequest) externalContext.getRequest(),
                 (HttpServletResponse) externalContext.getResponse(),
                 AuthenticationParameters.withParams().credential(
-                        new UsernamePasswordCredential(userEntity.getUsername(), MD5(userEntity.getPassword()))
+                        new UsernamePasswordCredential(userEntity.getUsername(), MD5.convert(userEntity.getPassword()))
                 )
         );
     }

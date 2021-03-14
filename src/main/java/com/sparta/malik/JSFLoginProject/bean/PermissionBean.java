@@ -1,4 +1,4 @@
-package com.sparta.malik.JSFLoginProject.authentication;
+package com.sparta.malik.JSFLoginProject.bean;
 
 import com.sparta.malik.JSFLoginProject.datastore.UserRepository;
 import com.sparta.malik.JSFLoginProject.entities.UserEntity;

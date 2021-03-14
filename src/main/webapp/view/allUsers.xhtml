@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <ui:composition template="/WEB-INF/templates/template.xhtml">
+        <ui:define name="content">
+            <div class="jumbotron">
+                <h4 class="display-4">User: </h4>
+                <hr class="my-4"/>
+                <h:form id="displayUser">
+                    <table class="user-table">
+                        <tr>
+                            <th class="user-table-header">User ID</th>
+                            <th class="user-table-header">Username</th>
+                            <th class="user-table-header">Password</th>
+                            <th class="user-table-header">User Type</th>
+                        </tr>
+                        <tbody>
+                        <ui:repeat var="o" value="#{userRepository.allUsers}" varStatus="status">
+                            <tr>
+                                <td class="user-table-even-row">#{o.id}</td>
+                                <td class="user-table-even-row">#{o.username}</td>
+                                <td class="user-table-even-row">#{o.password}</td>
+                                <td class="user-table-even-row">#{o.userType}</td>
+                            </tr>
+                        </ui:repeat>
+                        </tbody>
+                    </table>
+                    <hr class="my-4"/>
+                    <h:panelGrid columns="1">
+                        <h:commandButton value="search" action="search?faces-redirect=true"
+                                         styleClass="button pinkButton"/>
+                        <h:commandButton value="admin page" action="admin?faces-redirect=true"
+                                         styleClass="button pinkButton"/>
+                        <h:commandButton value="Logout" action="#{logoutBean.logout}" styleClass="button pinkButton"/>
+                    </h:panelGrid>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</f:view>
+</html>
