@@ -10,24 +10,26 @@
     <ui:composition template="/WEB-INF/templates/template.xhtml">
         <ui:define name="content">
             <div class="jumbotron">
-                <h1 class="display-4">Welcome to the Admin Page</h1>
+                <h1 class="display-4">Admin Page</h1>
                 <hr class="my-4"/>
                 <h:form>
                     <div align="center">
                         <h:panelGrid columns="1">
                             <p style="text-align: center">See all users:</p>
-                            <h:commandButton value="View" action="allUsers?faces-redirect=true"
+                            <h:commandButton style="float:centre" value="View" action="allUsers?faces-redirect=true"
                                              styleClass="button whiteButton"/>
                             <br/>
                             <p style="text-align: center">add a new user to the database:</p>
-                            <h:commandButton value="Registration" action="registration?faces-redirect=true"
+                            <h:commandButton style="float:centre" value="Registration"
+                                             action="registration?faces-redirect=true"
                                              styleClass="button whiteButton"/>
                             <br/>
                             <p style="text-align: center">change access permissions for an existing user:</p>
-                            <h:commandButton value="Change User Type" action="changePermissions?faces-redirect=true"
+                            <h:commandButton style="float:centre" value="Change User Type"
+                                             action="changePermissions?faces-redirect=true"
                                              styleClass="button whiteButton"/>
                             <hr class="my-4"/>
-                            <h:commandButton value="logout" action="#{logoutBean.logout}"
+                            <h:commandButton style="float:centre" value="logout" action="#{logoutBean.logout}"
                                              styleClass="button pinkButton"/>
                         </h:panelGrid>
                     </div>

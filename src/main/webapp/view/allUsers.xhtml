@@ -9,7 +9,6 @@
     <ui:composition template="/WEB-INF/templates/template.xhtml">
         <ui:define name="content">
             <div class="jumbotron">
-                <h4 class="display-4">User: </h4>
                 <hr class="my-4"/>
                 <h:form id="displayUser">
                     <table class="user-table">
@@ -32,8 +31,6 @@
                     </table>
                     <hr class="my-4"/>
                     <h:panelGrid columns="1">
-                        <h:commandButton value="search" action="search?faces-redirect=true"
-                                         styleClass="button pinkButton"/>
                         <h:commandButton value="admin page" action="admin?faces-redirect=true"
                                          styleClass="button pinkButton"/>
                         <h:commandButton value="Logout" action="#{logoutBean.logout}" styleClass="button pinkButton"/>
